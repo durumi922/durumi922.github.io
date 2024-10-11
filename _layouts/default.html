@@ -36,5 +36,76 @@
     {% include scripts.html %}
 
 
+    <div id="sidebar">
+      <h3>TIL</h3>
+      <ul id="monthly-links"></ul> <!-- 월별 링크를 추가할 곳 -->
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const monthlyLinksEl = document.getElementById('monthly-links');
+            const username = 'durumi922'; // GitHub 사용자명
+            const repo = 'durumi922.github.io'; // 리포지토리 이름
+            const baseURL = `https://api.github.com/repos/${username}/${repo}/contents/_posts/TIL/24`; // base URL
+    
+            // 월별 폴더 목록
+            const folders = ['24.7', '24.8', '24.10'];
+    
+            // 월별 링크 생성 함수
+            function createLink(folder) {
+                const link = document.createElement('li');
+                link.innerHTML = `<a href="#" data-folder="${folder}">${folder}</a>`;
+                monthlyLinksEl.appendChild(link);
+            }
+    
+            // 클릭 이벤트 추가
+            function addClickEvents() {
+                const links = document.querySelectorAll('#monthly-links a');
+                links.forEach(link => {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const folder = this.getAttribute('data-folder');
+                        fetchFilesInFolder(folder);
+                    });
+                });
+            }
+    
+            // 폴더 내 파일 가져오기
+            function fetchFilesInFolder(folder) {
+                const url = `${baseURL}/${folder}`;
+                fetch(url)
+                    .then(response => response.json())
+                    .then(files => {
+                        const fileList = files.map(file => {
+                            if (file.name.match(/^\d{4}-\d{2}-\d{2}-TIL\.md$/)) {
+                                return `<li><a href="${file.download_url}" target="_blank">${file.name}</a></li>`;
+                            }
+                            return '';
+                        }).join('');
+                        displayFiles(fileList);
+                    })
+                    .catch(error => console.error('Error fetching files:', error));
+            }
+    
+            // 파일 리스트 보여주기
+            function displayFiles(fileList) {
+                const fileContainer = document.getElementById('file-container');
+                if (fileContainer) {
+                    fileContainer.innerHTML = `<ul>${fileList}</ul>`;
+                } else {
+                    const newContainer = document.createElement('div');
+                    newContainer.id = 'file-container';
+                    newContainer.innerHTML = `<ul>${fileList}</ul>`;
+                    document.body.appendChild(newContainer);
+                }
+            }
+    
+            // 초기 링크 생성
+            folders.forEach(createLink);
+            addClickEvents();
+        });
+    </script>
+    
+
   </body>
 </html>
