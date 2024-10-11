@@ -8,6 +8,25 @@
     {% include head.html %}
     {% include head/custom.html %}
     <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.0/main.min.css' rel='stylesheet' />
+  <style>
+    #sidebar {
+      width: 300px; /* 사이드바 너비 */
+      position: fixed; /* 고정된 위치 */
+      bottom: 0; /* 하단에 배치 */
+      left: 0; /* 왼쪽에 배치 */
+      padding: 10px;
+      background-color: #f0f0f0;
+      border-top: 2px solid #ddd;
+    }
+
+    #small-calendar {
+      max-width: 100%; /* 달력이 사이드바 너비에 맞도록 */
+      height: 300px; /* 원하는 달력 높이 설정 */
+    }
+
+
+  </style>
+  
   </head>
 
   <body class="layout--{{ page.layout | default: layout.layout }}{% if page.classes or layout.classes %}{{ page.classes | default: layout.classes | join: ' ' | prepend: ' ' }}{% endif %}" dir="{% if site.rtl %}rtl{% else %}ltr{% endif %}">
@@ -35,33 +54,45 @@
     {% include scripts.html %}
 
     //달력
+
+    <div id="sidebar">
+      <h3>TIL Calendar</h3>
+      <div id="small-calendar"></div> <!-- 작게 표시될 달력 -->
+    </div>
+    
+
     <div id='calendar'></div>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.0/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.0/main.min.js'></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        const calendarEl = document.getElementById('calendar');
+        const calendarEl = document.getElementById('small-calendar');
         const calendar = new FullCalendar.Calendar(calendarEl, {
           initialView: 'dayGridMonth',
+          headerToolbar: {
+            left: 'prev,next',
+            center: 'title',
+            right: '' // 오른쪽에 불필요한 버튼 제거
+          },
+          height: 300, // 달력 높이를 작게 설정
           events: [] // GitHub API에서 가져온 데이터가 여기에 들어감
         });
         calendar.render();
-
-        const username = 'your-username';
-        const repo = 'your-repo';
+    
+        const username = 'durumi922'; // GitHub 사용자명
+        const repo = 'durumi922.github.io'; // 리포지토리 이름
         const apiURL = `https://api.github.com/repos/${username}/${repo}/contents/`;
-
+    
         fetch(apiURL)
           .then(response => response.json())
           .then(data => {
             const events = data
-              .filter(file => file.name.includes('til'))
+              .filter(file => file.name.match(/^\d{4}-\d{2}-\d{2}-TIL\.md$/))
               .map(file => {
-                const dateParts = file.name.split('-');
-                const date = `${dateParts[0]}-${dateParts[1]}-${dateParts[2]}`;
-                return { title: 'TIL 작성', start: date };
+                const dateParts = file.name.split('-TIL.md')[0];
+                return { title: 'TIL 작성', start: dateParts };
               });
-
+    
             events.forEach(event => {
               calendar.addEvent(event);
             });
@@ -69,6 +100,7 @@
           .catch(error => console.error('Error fetching files:', error));
       });
     </script>
+    
 
   </body>
 </html>
