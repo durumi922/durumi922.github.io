@@ -8,24 +8,25 @@
     {% include head.html %}
     {% include head/custom.html %}
     <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.0/main.min.css' rel='stylesheet' />
-  <style>
-    #sidebar {
-      width: 300px; /* 사이드바 너비 */
-      position: fixed; /* 고정된 위치 */
-      bottom: 0; /* 하단에 배치 */
-      left: 0; /* 왼쪽에 배치 */
-      padding: 10px;
-      background-color: #f0f0f0;
-      border-top: 2px solid #ddd;
-    }
+    <style>
+      #sidebar {
+        width: 300px; /* 사이드바 너비 */
+        position: fixed; /* 고정된 위치 */
+        bottom: 0; /* 하단에 배치 */
+        left: 0; /* 왼쪽에 배치 */
+        padding: 10px;
+        background-color: #f0f0f0;
+        border-top: 2px solid #ddd;
+      }
 
-    #small-calendar {
-      max-width: 100%; /* 달력이 사이드바 너비에 맞도록 */
-      height: 300px; /* 원하는 달력 높이 설정 */
-    }
+      #small-calendar {
+        max-width: 100%; /* 달력이 사이드바 너비에 맞도록 */
+        height: 300px; /* 원하는 달력 높이 설정 */
+        overflow: auto; /* 내용이 넘치면 스크롤 가능하도록 설정 */
+      }
 
 
-  </style>
+    </style>
   
   </head>
 
