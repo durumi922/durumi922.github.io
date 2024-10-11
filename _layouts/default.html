@@ -8,25 +8,6 @@
     {% include head.html %}
     {% include head/custom.html %}
     <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.0/main.min.css' rel='stylesheet' />
-    <style>
-      #sidebar {
-        width: 300px; /* 사이드바 너비 */
-        position: fixed; /* 고정된 위치 */
-        bottom: 0; /* 하단에 배치 */
-        left: 0; /* 왼쪽에 배치 */
-        padding: 10px;
-        background-color: #f0f0f0;
-        border-top: 2px solid #ddd;
-      }
-
-      #small-calendar {
-        max-width: 100%; /* 달력이 사이드바 너비에 맞도록 */
-        height: 300px; /* 원하는 달력 높이 설정 */
-        overflow: auto; /* 내용이 넘치면 스크롤 가능하도록 설정 */
-      }
-
-
-    </style>
   
   </head>
 
@@ -54,78 +35,6 @@
 
     {% include scripts.html %}
 
-    //달력
-
-    <div id="sidebar">
-      <h3>TIL Calendar!!!</h3>
-      <div id="small-calendar"></div> <!-- 작게 표시될 달력 -->
-    </div>
-    
-
-    <div id='calendar'></div>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.0/main.min.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.0/main.min.js'></script>
-    <script>
-      const username = 'durumi922'; // GitHub 사용자명
-      const repo = 'durumi922.github.io'; // 리포지토리 이름
-      const baseURL = `https://api.github.com/repos/${username}/${repo}/contents/_posts/TIL/24`; // base URL
-
-      // 각 폴더를 가져오는 함수
-      async function fetchFolder(folder) {
-        const url = `${baseURL}/${folder}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Failed to fetch folder contents');
-        }
-        return response.json();
-      }
-
-      // 이벤트를 추가하는 함수
-      async function addEvents() {
-        const folders = ['24.7', '24.8', '24.10']; // 하위 폴더 목록
-        const events = [];
-
-        for (const folder of folders) {
-          try {
-            const files = await fetchFolder(folder);
-            files.forEach(file => {
-              if (file.name.match(/^\d{4}-\d{2}-\d{2}-TIL\.md$/)) {
-                const dateParts = file.name.split('-TIL.md')[0];
-                events.push({ title: 'TIL 작성', start: dateParts });
-              }
-            });
-          } catch (error) {
-            console.error('Error fetching files:', error);
-          }
-        }
-
-        events.forEach(event => {
-          calendar.addEvent(event);
-        });
-        calendar.render(); // 이벤트가 추가된 후 다시 렌더링
-      }
-
-      // 초기화
-      document.addEventListener('DOMContentLoaded', function() {
-        const calendarEl = document.getElementById('small-calendar');
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-          initialView: 'dayGridMonth',
-          headerToolbar: {
-            left: 'prev,next',
-            center: 'title',
-            right: '' // 오른쪽에 불필요한 버튼 제거
-          },
-          height: 300, // 달력 높이를 작게 설정
-          events: [] // GitHub API에서 가져온 데이터가 여기에 들어감
-        });
-        calendar.render();
-
-        // 이벤트 추가
-        addEvents();
-      });
-
-    </script>
-    
 
   </body>
 </html>
