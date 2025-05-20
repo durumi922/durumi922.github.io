@@ -331,9 +331,6 @@ collections:
   tech:
     output: true
     permalink: /tech/:title/
-  life:
-    output: true
-    permalink: /life/:title/
 
 defaults:
   - scope:
@@ -346,10 +343,11 @@ defaults:
       comments: true
       share: true
       related: true
+      category: tech
 
   - scope:
       path: ""
-      type: life
+      type: posts
     values:
       layout: single
       author_profile: true
@@ -357,6 +355,7 @@ defaults:
       comments: true
       share: true
       related: true
+
 
 # 상단 메뉴(navbar) 설정
 nav:
