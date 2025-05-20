@@ -325,7 +325,6 @@ defaults:
       related: true
 
 
-# 기술/일상 포스트 분리용 컬렉션 설정
 collections:
   posts:
     output: true
@@ -336,7 +335,6 @@ collections:
     output: true
     permalink: /life/:title/
 
-# 기술/일상 포스트의 기본 속성 (레이아웃, 카테고리 등)
 defaults:
   - scope:
       path: ""
@@ -348,7 +346,6 @@ defaults:
       comments: true
       share: true
       related: true
-      category: 기술
 
   - scope:
       path: ""
@@ -360,4 +357,14 @@ defaults:
       comments: true
       share: true
       related: true
-      category: 일상
+
+# 상단 메뉴(navbar) 설정
+nav:
+  - title: "기술 블로그"
+    url: /tech/
+  - title: "일상 블로그"
+    url: /life/
+  - title: "태그"
+    url: /tags/
+  - title: "카테고리"
+    url: /categories/
