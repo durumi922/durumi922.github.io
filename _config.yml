@@ -12,7 +12,7 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "pink" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
@@ -323,3 +323,41 @@ defaults:
       comments: # true
       share: true
       related: true
+
+
+# 기술/일상 포스트 분리용 컬렉션 설정
+collections:
+  posts:
+    output: true
+  tech:
+    output: true
+    permalink: /tech/:title/
+  life:
+    output: true
+    permalink: /life/:title/
+
+# 기술/일상 포스트의 기본 속성 (레이아웃, 카테고리 등)
+defaults:
+  - scope:
+      path: ""
+      type: tech
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      category: 기술
+
+  - scope:
+      path: ""
+      type: life
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+      category: 일상
