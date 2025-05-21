@@ -312,32 +312,24 @@ compress_html:
 
 # Defaults
 defaults:
-  # _posts
+  # _posts용
   - scope:
       path: ""
       type: posts
     values:
-      layout: single
+      layout: post 
       author_profile: true
       read_time: true
-      comments: # true
+      comments: true
       share: true
       related: true
 
-
-collections:
-  posts:
-    output: true
-  tech:
-    output: true
-    permalink: /tech/:title/
-
-defaults:
+  # tech 컬렉션용
   - scope:
       path: ""
       type: tech
     values:
-      layout: single
+      layout: post
       author_profile: true
       read_time: true
       comments: true
@@ -345,16 +337,14 @@ defaults:
       related: true
       category: tech
 
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: true
+
+collections:
+  posts:
+    output: true
+  tech:
+    output: true
+    permalink: /:categories/:year/:month/:day/:title/
+
 
 
 # 상단 메뉴(navbar) 설정
